@@ -1,10 +1,930 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-<meta charset="utf-8">
-<title>GitHub Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>個人介紹 | Ryan Chao</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --dark: #1a1a2e;
+      --mid: #16213e;
+      --accent: #e94560;
+      --accent-light: #f5a623;
+      --text-light: #eaeaea;
+      --text-muted: #a0a0b0;
+      --card-bg: #0f3460;
+      --white: #ffffff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+      background-color: var(--dark);
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--mid) 60%, #0f3460 100%);
+      padding: 0 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(233,69,96,0.15) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin: 0 auto 28px;
+      border: 3px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 40px rgba(233,69,96,0.4);
+    }
+
+    .hero-content h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .hero-content h1 span {
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    .location {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+
+    .location::before {
+      content: '📍 ';
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 32px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+      border: 2px solid var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-light);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── Sections ── */
+    section {
+      padding: 90px 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-title h2 span {
+      color: var(--accent);
+    }
+
+    .section-title .divider {
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+      margin: 0 auto;
+      border-radius: 2px;
+    }
+
+    /* ── About ── */
+    #about {
+      background: var(--mid);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .about-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .info-item {
+      background: rgba(15, 52, 96, 0.5);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .info-item .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .info-item .value {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .stats-box {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 28px 32px;
+      border: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 24px;
+    }
+
+    .stats-row .stat-card {
+      flex: 1;
+    }
+
+    /* ── Skills ── */
+    #skills {
+      background: var(--dark);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .skill-category {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color 0.3s;
+    }
+
+    .skill-category:hover {
+      border-color: rgba(233,69,96,0.4);
+    }
+
+    .skill-category h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .skill-item {
+      margin-bottom: 16px;
+    }
+
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+    }
+
+    .skill-pct {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .skill-bar {
+      height: 6px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    }
+
+    /* ── Experience ── */
+    #experience {
+      background: var(--mid);
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 44px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -46px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(233,69,96,0.5);
+    }
+
+    .timeline-date {
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .timeline-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .timeline-company {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── Projects ── */
+    #projects {
+      background: var(--dark);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .project-thumb {
+      height: 160px;
+      background: linear-gradient(135deg, var(--card-bg), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .project-thumb.p2 { background: linear-gradient(135deg, var(--card-bg), #7c3aed); }
+    .project-thumb.p3 { background: linear-gradient(135deg, var(--card-bg), #059669); }
+    .project-thumb.p4 { background: linear-gradient(135deg, var(--card-bg), #d97706); }
+
+    .project-body {
+      padding: 24px;
+    }
+
+    .project-body h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .project-body p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: rgba(233,69,96,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(233,69,96,0.3);
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* ── Contact ── */
+    #contact {
+      background: var(--mid);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .contact-info p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+
+    .contact-link:hover {
+      color: var(--accent);
+    }
+
+    .contact-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(233,69,96,0.12);
+      border: 1px solid rgba(233,69,96,0.25);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(15,52,96,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px 18px;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .form-group textarea {
+      height: 130px;
+      resize: vertical;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark);
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    footer span {
+      color: var(--accent);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero-content h1 { font-size: 2.2rem; }
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .stats-row { flex-direction: column; }
+      nav ul { gap: 20px; }
+    }
+  </style>
 </head>
 <body>
-<h1>Yo~</h1>
+
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#hero">首頁</a></li>
+      <li><a href="#about">關於我</a></li>
+      <li><a href="#skills">技能</a></li>
+      <li><a href="#experience">經歷</a></li>
+      <li><a href="#projects">作品</a></li>
+      <li><a href="#contact">聯絡</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="avatar">👨‍💻</div>
+      <h1>Ryan <span>Chao</span></h1>
+      <p class="tagline">全端工程師 · 產品開發者 · 技術愛好者</p>
+      <p class="location">台灣，台北市</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">查看作品集</a>
+        <a href="#contact" class="btn btn-outline">與我聯絡</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>關於 <span>我</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            嗨！我是 Ryan，一位熱愛打造使用者體驗的全端工程師。擁有超過 5 年的軟體開發經驗，
+            專注於將複雜的商業需求轉化為優雅、高效的技術解決方案。
+          </p>
+          <p>
+            我相信好的程式碼不只是能運行，更應該易於維護、可擴展，並且讓下一位工程師讀起來感到愉快。
+            閒暇時我喜歡研究新技術、參與開源社群，偶爾也會寫寫技術文章分享心得。
+          </p>
+          <div class="about-info">
+            <div class="info-item">
+              <div class="label">姓名</div>
+              <div class="value">Ryan Chao</div>
+            </div>
+            <div class="info-item">
+              <div class="label">所在地</div>
+              <div class="value">台北市，台灣</div>
+            </div>
+            <div class="info-item">
+              <div class="label">學歷</div>
+              <div class="value">資訊工程學士</div>
+            </div>
+            <div class="info-item">
+              <div class="label">語言</div>
+              <div class="value">中文、英文</div>
+            </div>
+          </div>
+        </div>
+        <div class="stats-box">
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-number">5+</div>
+              <div class="stat-label">年開發經驗</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">30+</div>
+              <div class="stat-label">完成專案</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">10k+</div>
+            <div class="stat-label">GitHub 程式碼貢獻</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-title">
+        <h2>專業 <span>技能</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>前端開發</h3>
+          <div class="skill-item">
+            <div class="skill-header"><span>React / Next.js</span><span class="skill-pct">90%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>TypeScript</span><span class="skill-pct">85%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>CSS / Tailwind</span><span class="skill-pct">88%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Vue.js</span><span class="skill-pct">75%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>後端開發</h3>
+          <div class="skill-item">
+            <div class="skill-header"><span>Python / FastAPI</span><span class="skill-pct">88%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Node.js / Express</span><span class="skill-pct">85%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>PostgreSQL / Redis</span><span class="skill-pct">80%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>REST / GraphQL</span><span class="skill-pct">82%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>工具 &amp; 其他</h3>
+          <div class="skill-item">
+            <div class="skill-header"><span>Docker / K8s</span><span class="skill-pct">78%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Git / GitHub Actions</span><span class="skill-pct">92%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>AWS / GCP</span><span class="skill-pct">72%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>AI / LLM 整合</span><span class="skill-pct">80%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-title">
+        <h2>工作 <span>經歷</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2023 — 至今</div>
+          <div class="timeline-title">資深全端工程師</div>
+          <div class="timeline-company">TechVision 科技有限公司</div>
+          <div class="timeline-desc">
+            主導 SaaS 平台核心模組開發，帶領 4 人小組完成產品從 0 到 1 的建構。
+            導入 CI/CD 流程，將部署時間縮短 60%，並將系統可用率維持在 99.9% 以上。
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021 — 2023</div>
+          <div class="timeline-title">全端工程師</div>
+          <div class="timeline-company">Digital Spark 數位行銷公司</div>
+          <div class="timeline-desc">
+            負責電商平台前後端開發，整合金流、物流及 CRM 系統。
+            優化資料庫查詢效能，使頁面載入速度提升 40%，用戶留存率顯著上升。
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2019 — 2021</div>
+          <div class="timeline-title">前端工程師</div>
+          <div class="timeline-company">StartUp Lab 新創加速器</div>
+          <div class="timeline-desc">
+            參與多個早期新創產品的 MVP 開發，使用 React 建構互動式數據儀表板，
+            並協助建立前端元件庫以提升跨團隊開發效率。
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2015 — 2019</div>
+          <div class="timeline-title">資訊工程學士</div>
+          <div class="timeline-company">國立台灣大學</div>
+          <div class="timeline-desc">
+            主修軟體工程與資料結構，副修統計學。畢業專題為基於機器學習的推薦系統，
+            榮獲系上最佳專題獎。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-title">
+        <h2>精選 <span>作品</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-thumb">🛒</div>
+          <div class="project-body">
+            <h3>智能電商平台</h3>
+            <p>整合 AI 推薦引擎的全端電商解決方案，支援多商家入駐、即時庫存管理與自動化行銷工具。</p>
+            <div class="tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">FastAPI</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Redis</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-thumb p2">🤖</div>
+          <div class="project-body">
+            <h3>AI 客服機器人</h3>
+            <p>基於 LLM 的智能客服系統，整合企業知識庫實現精準問答，並提供即時情緒分析與人工接管機制。</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">LangChain</span>
+              <span class="tag">Claude API</span>
+              <span class="tag">React</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-thumb p3">📊</div>
+          <div class="project-body">
+            <h3>數據分析儀表板</h3>
+            <p>即時數據視覺化平台，整合多個資料來源，提供自訂報表、自動化警報與預測分析功能。</p>
+            <div class="tags">
+              <span class="tag">Vue.js</span>
+              <span class="tag">D3.js</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">MongoDB</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-thumb p4">📱</div>
+          <div class="project-body">
+            <h3>健康管理 App</h3>
+            <p>跨平台健康追蹤應用，結合穿戴裝置數據，提供個人化運動建議、飲食分析與睡眠品質監測。</p>
+            <div class="tags">
+              <span class="tag">React Native</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">GraphQL</span>
+              <span class="tag">AWS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-title">
+        <h2>與我 <span>聯絡</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>讓我們一起創造精彩</h3>
+          <p>無論是合作機會、技術諮詢，或只是想聊聊有趣的技術話題，歡迎隨時與我聯繫。我通常會在 24 小時內回覆。</p>
+          <div class="contact-links">
+            <a href="mailto:ryan@example.com" class="contact-link">
+              <div class="contact-icon">✉️</div>
+              ryan@example.com
+            </a>
+            <a href="tel:+886912345678" class="contact-link">
+              <div class="contact-icon">📞</div>
+              +886 912 345 678
+            </a>
+            <a href="#" class="contact-link">
+              <div class="contact-icon">💼</div>
+              linkedin.com/in/ryanChao
+            </a>
+            <a href="#" class="contact-link">
+              <div class="contact-icon">🐙</div>
+              github.com/ryanChao
+            </a>
+          </div>
+        </div>
+        <form class="contact-form" onsubmit="return false;">
+          <div class="form-group">
+            <input type="text" placeholder="您的姓名" />
+          </div>
+          <div class="form-group">
+            <input type="email" placeholder="電子郵件" />
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="主旨" />
+          </div>
+          <div class="form-group">
+            <textarea placeholder="訊息內容..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start; cursor:pointer; border:none;">
+            送出訊息
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Ryan Chao · 用 <span>❤</span> 與程式碼打造</p>
+  </footer>
+
 </body>
 </html>
